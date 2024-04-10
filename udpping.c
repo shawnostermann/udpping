@@ -357,7 +357,7 @@ Open(
 static void
 Send(void *buf, int len)
 {
-    static int af, pf;
+    static int af;
     static struct sockaddr_in  sa4;
     static struct sockaddr_in6 sa6;
     static int sa_len = 0;
@@ -368,7 +368,6 @@ Send(void *buf, int len)
     if (psa == NULL) {
 	if (ip_version == 4) {
 	    af = AF_INET;
-	    pf = PF_INET;
 
 	    if ((phe = gethostbyname (gl_host)) == NULL)
 		SysError("unknown IPv4 host: %s", gl_host);
@@ -382,16 +381,15 @@ Send(void *buf, int len)
 	    static struct in6_addr addr6;
 	    char *paddr;
 	    af = AF_INET6;
-	    pf = PF_INET6;
 
 	    // see if it's numeric first
 	    if (inet_pton(af,host,&addr6) == 1) {
-		paddr = (char *)&addr6;
+			paddr = (char *)&addr6;
 	    } else {
-		// better be something we can map with DNS, then!
-		if ((phe = gethostbyname (gl_host)) == NULL)
-		    SysError("unknown IPv6 host: %s", gl_host);
-		paddr = phe->h_addr;
+			// better be something we can map with DNS, then!
+			if ((phe = gethostbyname (gl_host)) == NULL)
+				SysError("unknown IPv6 host: %s", gl_host);
+			paddr = phe->h_addr;
 	    }
 
 	    memcpy(&sa6.sin6_addr,paddr,sizeof(struct in6_addr));
