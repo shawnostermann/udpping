@@ -1,5 +1,4 @@
-CFLAGS = -g -Wall
-CFLAGS = -g -O2 -Wall -Werror
+CFLAGS = -O2 -Wall -Werror
 CC=gcc
 LIBS   = -lm -lnsl -lsocket
 LIBS   = -lm
